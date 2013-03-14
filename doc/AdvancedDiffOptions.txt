@@ -1,0 +1,114 @@
+*AdvancedDiffOptions.txt*	Additional diff options and commands to manage them.
+
+		   ADVANCED DIFF OPTIONS    by Ingo Karkat
+						     *AdvancedDiffOptions.vim*
+description			|AdvancedDiffOptions-description|
+usage				|AdvancedDiffOptions-usage|
+installation			|AdvancedDiffOptions-installation|
+configuration			|AdvancedDiffOptions-configuration|
+integration			|AdvancedDiffOptions-integration|
+limitations			|AdvancedDiffOptions-limitations|
+known problems			|AdvancedDiffOptions-known-problems|
+todo				|AdvancedDiffOptions-todo|
+history				|AdvancedDiffOptions-history|
+
+==============================================================================
+DESCRIPTION				     *AdvancedDiffOptions-description*
+
+This plugin ...
+
+HOW IT WORKS								     *
+
+SOURCE									     *
+(Original Vim tip, Stack Overflow answer, ...)
+
+SEE ALSO								     *
+(Plugins offering complementary functionality, or plugins using this library.)
+
+RELATED WORKS								     *
+(Alternatives from other authors, other approaches, references not used here.)
+
+==============================================================================
+USAGE						   *AdvancedDiffOptions-usage*
+
+								*:DiffOptions*
+:DiffOptions		List the currently active diff options.
+								 *:DiffIClear*
+:DiffIClear		Clear all "ignore ..." diff options.
+							    *:DiffIWhiteSpace*
+:DiffIWhiteSpace[!]	Ignore changes in whitespace. [!] for undo.
+								  *:DiffICase*
+:DiffICase[!]		Ignore changes in case. [!] for undo.
+							    *:DiffIBlankLines*
+:DiffIBlankLines[!]	Ignore blank lines. [!] for undo.
+								 *:DiffIHunks*
+:DiffIHunks[!] [{expr}]	Ignore change hunks whose lines _all_ match {expr}.
+			[!] for undo.
+								 *:DiffILines*
+:DiffILines[!] [{expr}]	Do not consider any lines that match "sed-style"
+			{expr} in the diff. [!] for undo.
+								 *:DiffIRange*
+:DiffIRange[!] [{expr}]	Do not consider any lines that match the "sed-style"
+			range specified by {expr} in the diff.
+			Example: 42,/^END/. [!] for undo.
+							       *:DiffIPattern*
+:DiffIPattern[!] [{expr}]
+			Do not consider any text that matches "sed-style" {expr}
+			in the diff. [!] for undo. Note that Vim will still
+			highlight the ignored changes (should there be another
+			change in the line that is not covered by {expr}),
+			because it determines that on its own.
+
+EXAMPLE						 *AdvancedDiffOptions-example*
+
+==============================================================================
+INSTALLATION				    *AdvancedDiffOptions-installation*
+
+This script is packaged as a |vimball|. If you have the "gunzip" decompressor
+in your PATH, simply edit the *.vmb.gz package in Vim; otherwise, decompress
+the archive first, e.g. using WinZip. Inside Vim, install by sourcing the
+vimball or via the |:UseVimball| command. >
+    vim AdvancedDiffOptions*.vmb.gz
+    :so %
+To uninstall, use the |:RmVimball| command.
+
+DEPENDENCIES				    *AdvancedDiffOptions-dependencies*
+
+- Requires Vim 7.0 or higher.
+
+==============================================================================
+CONFIGURATION				   *AdvancedDiffOptions-configuration*
+
+For a permanent configuration, put the following commands into your |vimrc|:
+configvar
+						   *AdvancedDiffOptions-remap*
+plugmap
+
+==============================================================================
+INTEGRATION				     *AdvancedDiffOptions-integration*
+
+==============================================================================
+LIMITATIONS				     *AdvancedDiffOptions-limitations*
+
+KNOWN PROBLEMS				  *AdvancedDiffOptions-known-problems*
+
+TODO						    *AdvancedDiffOptions-todo*
+
+IDEAS						   *AdvancedDiffOptions-ideas*
+
+==============================================================================
+HISTORY						 *AdvancedDiffOptions-history*
+
+GOAL
+First published version.
+
+0.01	07-Jul-2011
+Started development.
+
+==============================================================================
+Copyright: (C) 2011-2013 Ingo Karkat
+The VIM LICENSE applies to this script; see |copyright|.
+
+Maintainer:	Ingo Karkat <ingo@karkat.de>
+==============================================================================
+ vim:tw=78:ts=8:ft=help:norl:
