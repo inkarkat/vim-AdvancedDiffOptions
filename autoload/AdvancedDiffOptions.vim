@@ -1,7 +1,7 @@
 " AdvancedDiffOptions.vim: Additional diff options and commands to manage them.
 "
 " DEPENDENCIES:
-"   - ingocollections.vim autoload script
+"   - ingo/collections.vim autoload script
 "
 " Copyright: (C) 2011-2013 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
@@ -9,6 +9,7 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"	007     21-Feb-2013     Move to ingo-library.
 "	006	24-Jan-2013	Rename :DiffIRegexp to :DiffILines, as it's more
 "				consistent with :DiffIBlankLines and less
 "				misleading whether only the match or the entire
@@ -96,7 +97,7 @@ function! AdvancedDiffOptions#GetShortDiffOptions()
     return join(
     \	sort(
     \	    map(
-    \		ingocollections#unique(
+    \		ingo#collections#Unique(
     \		    map(s:GetAllDiffOptions(), 'substitute(v:val, "=.*$", "", "")')
     \		),
     \		'get(s:diffOptNameToShort, v:val, v:val)'
