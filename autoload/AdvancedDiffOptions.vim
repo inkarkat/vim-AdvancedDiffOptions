@@ -2,6 +2,7 @@
 "
 " DEPENDENCIES:
 "   - ingo/collections.vim autoload script
+"   - ingo/compat.vim autoload script
 "
 " Copyright: (C) 2011-2013 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
@@ -9,6 +10,7 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"	008	08-Aug-2013	Move escapings.vim into ingo-library.
 "	007     21-Feb-2013     Move to ingo-library.
 "	006	24-Jan-2013	Rename :DiffIRegexp to :DiffILines, as it's more
 "				consistent with :DiffIBlankLines and less
@@ -139,7 +141,7 @@ function! s:TranslateDiffOpts( diffOpt, isVimSuitabilityCheckPass )
     elseif l:diffOptName ==# 'iblankline'
 	return '-b -B'
     elseif l:diffOptName ==# 'ihunk'
-	return '-I ' . (a:isVimSuitabilityCheckPass ? 'doesnotmatch' : escapings#shellescape(l:diffOptArg, 1))
+	return '-I ' . (a:isVimSuitabilityCheckPass ? 'doesnotmatch' : ingo#compat#shellescape(l:diffOptArg, 1))
     elseif l:diffOptName ==# 'ilines'
 	call add(s:sedFilter, '/' . escape((a:isVimSuitabilityCheckPass ? 'doesnotmatch' : l:diffOptArg), '/') . '/s/.*//')
 	return ''
@@ -150,7 +152,7 @@ function! s:TranslateDiffOpts( diffOpt, isVimSuitabilityCheckPass )
 	call add(s:sedFilter, 's/' . escape((a:isVimSuitabilityCheckPass ? 'doesnotmatch' : l:diffOptArg), '/') . '//')
 	return ''
     else
-	return escapings#shellescape(a:diffOpt, 1)
+	return ingo#compat#shellescape(a:diffOpt, 1)
     endif
 endfunction
 function! AdvancedDiffOptions#DiffCmd( diffOptions, fname_in, fname_new, ... )
@@ -164,14 +166,14 @@ function! AdvancedDiffOptions#DiffCmd( diffOptions, fname_in, fname_new, ... )
 
     let l:diffCmd = printf('diff -a %s %s %s',
     \	join(l:diffArgs),
-    \	escapings#shellescape(a:fname_in, 1),
-    \	escapings#shellescape(a:fname_new, 1)
+    \	ingo#compat#shellescape(a:fname_in, 1),
+    \	ingo#compat#shellescape(a:fname_new, 1)
     \)
     " Assumption: File redirection works with ">"; don't want to parse the
     " 'shellredir' setting.
     if a:0
 	let l:fname_out = a:1
-	let l:diffCmd .= ' > ' . escapings#shellescape(l:fname_out, 1)
+	let l:diffCmd .= ' > ' . ingo#compat#shellescape(l:fname_out, 1)
     endif
 
     if ! empty(s:sedFilter)
@@ -181,16 +183,16 @@ function! AdvancedDiffOptions#DiffCmd( diffOptions, fname_in, fname_new, ... )
 	\   join(
 	\	map(
 	\	    s:sedFilter,
-	\	    '"-e " . escapings#shellescape(v:val, 1)'
+	\	    '"-e " . ingo#compat#shellescape(v:val, 1)'
 	\	)
 	\   )
 
 	" Assumption: Commands can be chained (on success) via "&&".
 	let l:diffCmd = printf('sed -i %s %s && sed -i %s %s && ',
 	\   l:sedClearExpressions,
-	\   escapings#shellescape(a:fname_in, 1),
+	\   ingo#compat#shellescape(a:fname_in, 1),
 	\   l:sedClearExpressions,
-	\   escapings#shellescape(a:fname_new, 1)
+	\   ingo#compat#shellescape(a:fname_new, 1)
 	\) . l:diffCmd
     endif
 "****D echomsg l:diffCmd
