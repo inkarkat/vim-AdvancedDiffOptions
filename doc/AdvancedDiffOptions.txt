@@ -75,6 +75,8 @@ To uninstall, use the |:RmVimball| command.
 DEPENDENCIES				    *AdvancedDiffOptions-dependencies*
 
 - Requires Vim 7.0 or higher.
+- Requires the |ingo-library.vim| plugin (vimscript #4433), version 1.012 or
+  higher.
 
 ==============================================================================
 CONFIGURATION				   *AdvancedDiffOptions-configuration*
