@@ -3,13 +3,16 @@
 " DEPENDENCIES:
 "   - ingo/collections.vim autoload script
 "   - ingo/compat.vim autoload script
+"   - external "diff" command, accessible through the PATH
+"   - external "sed" command, accessible through the PATH
 "
-" Copyright: (C) 2011-2013 Ingo Karkat
+" Copyright: (C) 2011-2014 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.00.009	05-Aug-2014	Globally remove the pattern for 'ipattern'.
 "	008	08-Aug-2013	Move escapings.vim into ingo-library.
 "	007     21-Feb-2013     Move to ingo-library.
 "	006	24-Jan-2013	Rename :DiffIRegexp to :DiffILines, as it's more
@@ -29,7 +32,6 @@
 "				:DiffIgnoreRegexp commands that employ a custom
 "				'diffexpr' to pass arbitrary diff arguments.
 "			    	file creation
-
 let s:save_cpo = &cpo
 set cpo&vim
 
@@ -149,7 +151,7 @@ function! s:TranslateDiffOpts( diffOpt, isVimSuitabilityCheckPass )
 	call add(s:sedFilter, (a:isVimSuitabilityCheckPass ? '/doesnotmatch/' : l:diffOptArg) . 's/.*//')
 	return ''
     elseif l:diffOptName ==# 'ipattern'
-	call add(s:sedFilter, 's/' . escape((a:isVimSuitabilityCheckPass ? 'doesnotmatch' : l:diffOptArg), '/') . '//')
+	call add(s:sedFilter, 's/' . escape((a:isVimSuitabilityCheckPass ? 'doesnotmatch' : l:diffOptArg), '/') . '//g')
 	return ''
     else
 	return ingo#compat#shellescape(a:diffOpt, 1)
