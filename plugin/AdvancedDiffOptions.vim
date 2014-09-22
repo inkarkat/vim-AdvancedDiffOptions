@@ -4,13 +4,13 @@
 "   - Requires Vim 7.0 or higher.
 "   - AdvancedDiffOptions.vim autoload script
 "
-" Copyright: (C) 2011-2013 Ingo Karkat
+" Copyright: (C) 2011-2014 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
-"	008	24-Jan-2013	ENH: Add :DiffIPattern to ignore only certain
+"   1.00.008	24-Jan-2013	ENH: Add :DiffIPattern to ignore only certain
 "				parts of a line (vs. :DiffILines which ignores
 "				the entire line if the passed regexp matches).
 "				FIX: Have to double backslashes ("foo\\bar") in
