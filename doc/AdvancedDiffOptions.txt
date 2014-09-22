@@ -6,7 +6,6 @@ description			|AdvancedDiffOptions-description|
 usage				|AdvancedDiffOptions-usage|
 installation			|AdvancedDiffOptions-installation|
 configuration			|AdvancedDiffOptions-configuration|
-integration			|AdvancedDiffOptions-integration|
 limitations			|AdvancedDiffOptions-limitations|
 known problems			|AdvancedDiffOptions-known-problems|
 todo				|AdvancedDiffOptions-todo|
@@ -15,22 +14,25 @@ history				|AdvancedDiffOptions-history|
 ==============================================================================
 DESCRIPTION				     *AdvancedDiffOptions-description*
 
-This plugin ...
+Vim provides a nice |diff-mode|; parameters like case- or whitespace-
+insensitivity can be controlled through the 'diffopt' option. However, because
+that option controls both the difference filtering itself as well as the
+visual appearance within Vim, modifying that option on the fly with `:set`
+isn't very comfortable.
+
+This plugin provides a set of :DiffI... commands that enable you to quickly
+toggle the built-in diff filtering options, and adds advanced options for
+filtering blank lines, complete change hunks, lines, ranges, or patterns of
+text.
 
 HOW IT WORKS								     *
 
-SOURCE									     *
-(Original Vim tip, Stack Overflow answer, ...)
-
-SEE ALSO								     *
-(Plugins offering complementary functionality, or plugins using this library.)
-
-RELATED WORKS								     *
-(Alternatives from other authors, other approaches, references not used here.)
+When there's a corresponding command-line option for the "diff" tool, this is
+passed. The filtering of lines, ranges, and patterns is implemented by
+preprocessing the buffers through the external "sed" command.
 
 ==============================================================================
 USAGE						   *AdvancedDiffOptions-usage*
-
 								*:DiffOptions*
 :DiffOptions		List the currently active diff options.
 								 *:DiffIClear*
@@ -48,19 +50,34 @@ USAGE						   *AdvancedDiffOptions-usage*
 :DiffILines[!] [{expr}]	Do not consider any lines that match "sed-style"
 			{expr} in the diff. [!] for undo.
 								 *:DiffIRange*
-:DiffIRange[!] [{expr}]	Do not consider any lines that match the "sed-style"
-			range specified by {expr} in the diff.
-			Example: 42,/^END/. [!] for undo.
+:DiffIRange[!] [{range}]
+			Do not consider any lines that match the "sed-style"
+			range specified by {range} in the diff. [!] for undo.
+			Note that Vim will still highlight additional lines at
+			the end of the longer buffer.
 							       *:DiffIPattern*
 :DiffIPattern[!] [{expr}]
-			Do not consider any text that matches "sed-style" {expr}
-			in the diff. [!] for undo. Note that Vim will still
-			highlight the ignored changes (should there be another
-			change in the line that is not covered by {expr}),
-			because it determines that on its own.
+			Do not consider any text that matches {expr}
+			"sed-style" in the diff (globally, not just the first
+			match).
+			[!] for undo, i.e. removing {expr}, or all previously
+			given patterns.
+			Note that Vim will still highlight the ignored changes
+			(should there be another change in the line that is
+			not covered by {expr}), because it determines that on
+			its own.
 
 EXAMPLE						 *AdvancedDiffOptions-example*
 
+Filter all diff hunks that only consist of comments in a Perl script: >
+    :DiffIHunks ^#
+<
+Ignore any differences after a line matching "EOF": >
+    :DiffIRange /^EOF$/,$
+<
+Ignore type differences of "char const" vs. "char" in a C program: >
+    :DiffIPattern [ ]const
+<
 ==============================================================================
 INSTALLATION				    *AdvancedDiffOptions-installation*
 
@@ -77,17 +94,11 @@ DEPENDENCIES				    *AdvancedDiffOptions-dependencies*
 - Requires Vim 7.0 or higher.
 - Requires the |ingo-library.vim| plugin (vimscript #4433), version 1.012 or
   higher.
+- External command "diff" or equivalent for listing of differences.
+- External command "sed" for some advanced filters.
 
 ==============================================================================
 CONFIGURATION				   *AdvancedDiffOptions-configuration*
-
-For a permanent configuration, put the following commands into your |vimrc|:
-configvar
-						   *AdvancedDiffOptions-remap*
-plugmap
-
-==============================================================================
-INTEGRATION				     *AdvancedDiffOptions-integration*
 
 ==============================================================================
 LIMITATIONS				     *AdvancedDiffOptions-limitations*
@@ -101,14 +112,14 @@ IDEAS						   *AdvancedDiffOptions-ideas*
 ==============================================================================
 HISTORY						 *AdvancedDiffOptions-history*
 
-GOAL
+1.00	05-Aug-2014
 First published version.
 
 0.01	07-Jul-2011
 Started development.
 
 ==============================================================================
-Copyright: (C) 2011-2013 Ingo Karkat
+Copyright: (C) 2011-2014 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
