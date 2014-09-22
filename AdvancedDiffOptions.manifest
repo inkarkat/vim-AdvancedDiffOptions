@@ -1,0 +1,3 @@
+autoload/AdvancedDiffOptions.vim
+plugin/AdvancedDiffOptions.vim
+doc/AdvancedDiffOptions.txt
