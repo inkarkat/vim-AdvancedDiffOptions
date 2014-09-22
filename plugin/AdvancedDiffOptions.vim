@@ -3,6 +3,7 @@
 " DEPENDENCIES:
 "   - Requires Vim 7.0 or higher.
 "   - AdvancedDiffOptions.vim autoload script
+"   - AdvancedDiffOptions/External.vim autoload script
 "
 " Copyright: (C) 2011-2014 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
@@ -10,6 +11,8 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   2.00.010	23-Sep-2014	Factor out filtering of the files to
+"				g:AdvancedDiffOptions_Strategy configuration.
 "   1.00.008	24-Jan-2013	ENH: Add :DiffIPattern to ignore only certain
 "				parts of a line (vs. :DiffILines which ignores
 "				the entire line if the passed regexp matches).
@@ -51,6 +54,15 @@ endif
 let g:loaded_AdvancedDiffOptions = 1
 let s:save_cpo = &cpo
 set cpo&vim
+
+"- configuration ---------------------------------------------------------------
+
+if ! exists('g:AdvancedDiffOptions_Strategy')
+    let g:AdvancedDiffOptions_Strategy = AdvancedDiffOptions#External#Sed
+endif
+
+
+"- commands --------------------------------------------------------------------
 
 command! -bar DiffOptions call AdvancedDiffOptions#ShowDiffOptions()
 
