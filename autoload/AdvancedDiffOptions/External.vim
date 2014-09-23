@@ -9,6 +9,8 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   2.00.002	24-Sep-2014	Introduce full templating to accommodate the
+"				syntax differences between sed and Vim.
 "   2.00.001	23-Sep-2014	file creation from
 "				autoload/AdvancedDiffOptions.vim
 
@@ -17,13 +19,22 @@ let s:diffFilterExternal = {
 \}
 function! s:diffFilterExternal.translateDiffOpts( diffOptName, diffOptArg, isVimSuitabilityCheckPass ) dict
     if a:diffOptName ==# 'ilines'
-	call add(self.filters, '/' . escape((a:isVimSuitabilityCheckPass ? 'doesnotmatch' : a:diffOptArg), '/') . '/s/.*//' . self.substFlags)
+	call add(self.filters, printf(
+	\   self.templateFilterRange,
+	\   '/' . escape((a:isVimSuitabilityCheckPass ? 'doesnotmatch' : a:diffOptArg), '/') . '/'
+	\))
 	return ''
     elseif a:diffOptName ==# 'irange'
-	call add(self.filters, (a:isVimSuitabilityCheckPass ? '/doesnotmatch/' : a:diffOptArg) . 's/.*//' . self.substFlags)
+	call add(self.filters, printf(
+	\   self.templateFilterRange,
+	\   (a:isVimSuitabilityCheckPass ? '/doesnotmatch/' : a:diffOptArg)
+	\))
 	return ''
     elseif a:diffOptName ==# 'ipattern'
-	call add(self.filters, 's/' . escape((a:isVimSuitabilityCheckPass ? 'doesnotmatch' : a:diffOptArg), '/') . '//g' . self.substFlags)
+	call add(self.filters, printf(
+	\   self.templateFilterPattern,
+	\   escape((a:isVimSuitabilityCheckPass ? 'doesnotmatch' : a:diffOptArg), '/')
+	\))
 	return ''
     else
 	return []
@@ -59,14 +70,17 @@ endfunction
 
 
 let AdvancedDiffOptions#External#Sed = copy(s:diffFilterExternal)
-let AdvancedDiffOptions#External#Sed.substFlags = ''
+let AdvancedDiffOptions#External#Sed.templateFilterRange = '%ss/.*//'
+let AdvancedDiffOptions#External#Sed.templateFilterPattern = 's/%s//g'
 let AdvancedDiffOptions#External#Sed.cmd = 'sed -i'
 let AdvancedDiffOptions#External#Sed.additionalExpressions = ''
 let AdvancedDiffOptions#External#Sed.filterArgument = '-e'
 
 let AdvancedDiffOptions#External#Vim = copy(s:diffFilterExternal)
-let AdvancedDiffOptions#External#Vim.substFlags = 'e'
-let AdvancedDiffOptions#External#Vim.cmd = 'vim -N -n -es -u NONE -c ' . ingo#compat#shellescape('set nomore', 1)
+let AdvancedDiffOptions#External#Vim.substTemplate = 'silent! %se'
+let AdvancedDiffOptions#External#Vim.templateFilterRange = 'g%ss/.*//e'
+let AdvancedDiffOptions#External#Vim.templateFilterPattern = '%%s/%s//ge'
+let AdvancedDiffOptions#External#Vim.cmd = 'vim -N -u NONE -n -i NONE -es -c ' . ingo#compat#shellescape('set nomore', 1)
 let AdvancedDiffOptions#External#Vim.additionalExpressions = '-c wq'
 let AdvancedDiffOptions#External#Vim.filterArgument = '-c'
 
