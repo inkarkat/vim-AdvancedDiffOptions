@@ -44,12 +44,14 @@ function! s:diffFilterExternal.getCommand( fname_in, fname_new ) dict
 	\   )
 
 	" Assumption: Commands can be chained (on success) via "&&".
-	return printf('%s %s %s && %s %s %s && ',
+	return printf('%s %s %s %s && %s %s %s %s && ',
 	\   self.cmd,
 	\   l:clearExpressions,
+	\   self.additionalExpressions,
 	\   ingo#compat#shellescape(a:fname_in, 1),
 	\   self.cmd,
 	\   l:clearExpressions,
+	\   self.additionalExpressions,
 	\   ingo#compat#shellescape(a:fname_new, 1)
 	\)
     endif
@@ -59,6 +61,13 @@ endfunction
 let AdvancedDiffOptions#External#Sed = copy(s:diffFilterExternal)
 let AdvancedDiffOptions#External#Sed.substFlags = ''
 let AdvancedDiffOptions#External#Sed.cmd = 'sed -i'
+let AdvancedDiffOptions#External#Sed.additionalExpressions = ''
 let AdvancedDiffOptions#External#Sed.filterArgument = '-e'
+
+let AdvancedDiffOptions#External#Vim = copy(s:diffFilterExternal)
+let AdvancedDiffOptions#External#Vim.substFlags = 'e'
+let AdvancedDiffOptions#External#Vim.cmd = 'vim -N -n -es -u NONE -c ' . ingo#compat#shellescape('set nomore', 1)
+let AdvancedDiffOptions#External#Vim.additionalExpressions = '-c wq'
+let AdvancedDiffOptions#External#Vim.filterArgument = '-c'
 
 " vim: set ts=8 sts=4 sw=4 noexpandtab ff=unix fdm=syntax :
