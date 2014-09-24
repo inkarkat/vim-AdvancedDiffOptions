@@ -177,7 +177,7 @@ function! AdvancedDiffOptions#DiffCmd( diffOptions, fname_in, fname_new, ... )
 
     let l:filterCmd = l:filter.getCommand(a:fname_in, a:fname_new)
     let l:diffCmd = l:filterCmd . l:diffCmd
-"****D unsilent echomsg '****' . l:diffCmd
+unsilent echomsg '****' l:diffCmd
     return l:diffCmd
 endfunction
 function! AdvancedDiffOptions#DiffExpr()
