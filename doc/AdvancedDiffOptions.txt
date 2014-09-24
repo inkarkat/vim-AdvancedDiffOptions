@@ -46,20 +46,23 @@ USAGE						   *AdvancedDiffOptions-usage*
 								 *:DiffIHunks*
 :DiffIHunks[!] [{expr}]	Ignore change hunks whose lines _all_ match {expr}.
 			[!] for undo.
+
+			The following filters go beyond the capabilities of
+			the diff command itself; they work by preprocessing
+			the compared files before sending them to diff.
 								 *:DiffILines*
-:DiffILines[!] [{expr}]	Do not consider any lines that match "sed-style"
-			{expr} in the diff. [!] for undo.
+:DiffILines[!] [{expr}]	Do not consider any lines that match {expr} in the
+			diff. [!] for undo.
 								 *:DiffIRange*
 :DiffIRange[!] [{range}]
-			Do not consider any lines that match the "sed-style"
-			range specified by {range} in the diff. [!] for undo.
+			Do not consider any lines that match the lines
+			specified by {range} in the diff. [!] for undo.
 			Note that Vim will still highlight additional lines at
 			the end of the longer buffer.
 							       *:DiffIPattern*
 :DiffIPattern[!] [{expr}]
-			Do not consider any text that matches {expr}
-			"sed-style" in the diff (globally, not just the first
-			match).
+			Do not consider any text that matches {expr} in the
+			diff (globally, not just the first match).
 			[!] for undo, i.e. removing {expr}, or all previously
 			given patterns.
 			Note that Vim will still highlight the ignored changes
@@ -100,6 +103,10 @@ DEPENDENCIES				    *AdvancedDiffOptions-dependencies*
 ==============================================================================
 CONFIGURATION				   *AdvancedDiffOptions-configuration*
 
+			*g:AdvancedDiffOptions_Strategy*
+Some advanced filters require preprocessing of the compared files: >
+    let g:AdvancedDiffOptions_Strategy = AdvancedDiffOptions#External#Sed
+<
 ==============================================================================
 LIMITATIONS				     *AdvancedDiffOptions-limitations*
 
