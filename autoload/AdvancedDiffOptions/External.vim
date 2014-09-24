@@ -15,7 +15,8 @@
 "				autoload/AdvancedDiffOptions.vim
 
 let s:diffFilterExternal = {
-\   'filters': []
+\   'filters': [],
+\   'filterPostProcessing': ''
 \}
 function! s:diffFilterExternal.translateDiffOpts( diffOptName, diffOptArg, isVimSuitabilityCheckPass ) dict
     if a:diffOptName ==# 'ilines'
@@ -44,6 +45,10 @@ function! s:diffFilterExternal.getCommand( fname_in, fname_new ) dict
     if empty(self.filters)
 	return ''
     else
+	if ! empty(self.filterPostProcessing)
+	    call map(self.filters, 'self.filterPostProcessing(v:val)')
+	endif
+
 	" Clear out, but not delete the filtered lines, so that the overall
 	" numbering isn't disturbed.
 	let l:clearExpressions =
@@ -80,7 +85,15 @@ let AdvancedDiffOptions#External#Vim = copy(s:diffFilterExternal)
 let AdvancedDiffOptions#External#Vim.substTemplate = 'silent! %se'
 let AdvancedDiffOptions#External#Vim.templateFilterRange = 'g%ss/.*//e'
 let AdvancedDiffOptions#External#Vim.templateFilterPattern = '%%s/%s//ge'
-let AdvancedDiffOptions#External#Vim.cmd = 'vim -N -u NONE -n -i NONE -es -c ' . ingo#compat#shellescape('set nomore', 1)
+function! s:VimFilterPostProcessing( filter )
+    " We only need the :global command when the range starts with a /pattern/;
+    " else, remove it, as :g500,$ is incorrect.
+    return (a:filter =~# '^g[[:alnum:]\\"|]\@![\x00-\xFF]' ? a:filter : a:filter[1:])
+endfunction
+let AdvancedDiffOptions#External#Vim.filterPostProcessing = function('s:VimFilterPostProcessing')
+let AdvancedDiffOptions#External#Vim.cmd = 'vim -N -u NONE -n -i NONE -es' .
+\   ' --cmd ' . ingo#compat#shellescape('set nomodeline') .
+\   ' -c ' . ingo#compat#shellescape('set nomore nofoldenable', 1)  " Note: Especially folding set up by modelines may interfere with batch processing.
 let AdvancedDiffOptions#External#Vim.additionalExpressions = '-c wq'
 let AdvancedDiffOptions#External#Vim.filterArgument = '-c'
 
