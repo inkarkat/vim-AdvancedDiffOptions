@@ -1,4 +1,5 @@
 autoload/AdvancedDiffOptions.vim
 autoload/AdvancedDiffOptions/External.vim
+autoload/AdvancedDiffOptions/Internal.vim
 plugin/AdvancedDiffOptions.vim
 doc/AdvancedDiffOptions.txt
