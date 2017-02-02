@@ -98,14 +98,28 @@ DEPENDENCIES				    *AdvancedDiffOptions-dependencies*
 - Requires the |ingo-library.vim| plugin (vimscript #4433), version 1.012 or
   higher.
 - External command "diff" or equivalent for listing of differences.
-- External command "sed" for some advanced filters.
+- External command "sed" for some advanced filters (optional).
 
 ==============================================================================
 CONFIGURATION				   *AdvancedDiffOptions-configuration*
 
-			*g:AdvancedDiffOptions_Strategy*
-Some advanced filters require preprocessing of the compared files: >
+					      *g:AdvancedDiffOptions_Strategy*
+Some advanced filters require preprocessing of the compared files. The plugin
+now offers several different strategies for this, each with slight differences
+in supported syntax. The default is using a separate instance of Vim: >
+    let g:AdvancedDiffOptions_Strategy = AdvancedDiffOptions#External#Vim
+With that, you can use the familiar syntax for ranges and regular expressions,
+but the processing is the slowest.
+If you have the sed tool on your system, you can use that instead: >
     let g:AdvancedDiffOptions_Strategy = AdvancedDiffOptions#External#Sed
+This is faster, but note that the tool uses a different regular expression
+syntax.
+The fastest option is processing of the diff files inside the current Vim
+instance; no external tool launch (other than diff itself) is required. Note
+that this currently only supports a subset of numerical ranges (e.g. 23,42)
+and "$", and that regular expression are evaluated line by line and cannot
+reference other lines. Also, no detection of the file encoding is done. >
+    let g:AdvancedDiffOptions_Strategy = AdvancedDiffOptions#Internal#Vim
 <
 ==============================================================================
 LIMITATIONS				     *AdvancedDiffOptions-limitations*
@@ -118,6 +132,16 @@ IDEAS						   *AdvancedDiffOptions-ideas*
 
 ==============================================================================
 HISTORY						 *AdvancedDiffOptions-history*
+
+2.00	25-Sep-2014
+- Refactor the plugin to handle different strategies to preprocess the
+  compared files (used by some advanced filters).
+- Offer preprocessing through an externally launched Vim instance, and
+  internally in the current Vim, in addition to the existing external sed
+  tool. Change the default to external Vim, because that offers the fullest
+  feature set, and no need to switch regular expression dialects as with sed.
+  Thanks to Marcelo Montu for suggesting this and sending prototype patches
+  for both external and internal Vim processing!
 
 1.00	05-Aug-2014
 First published version.
