@@ -58,7 +58,7 @@ set cpo&vim
 "- configuration ---------------------------------------------------------------
 
 if ! exists('g:AdvancedDiffOptions_Strategy')
-    let g:AdvancedDiffOptions_Strategy = AdvancedDiffOptions#External#Sed
+    let g:AdvancedDiffOptions_Strategy = AdvancedDiffOptions#External#Vim
 endif
 
 
