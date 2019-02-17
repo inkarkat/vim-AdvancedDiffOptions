@@ -4,7 +4,6 @@
 "   - ingo/collections.vim autoload script
 "   - ingo/compat.vim autoload script
 "   - external "diff" command, accessible through the PATH
-"   - external "sed" command, accessible through the PATH
 "
 " Copyright: (C) 2011-2014 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
@@ -12,6 +11,10 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   2.00.011	25-Sep-2014	Report custom exceptions from the chosen filter
+"				(e.g. when a syntax isn't supported).
+"				Move getting the diff command out of the :silent
+"				execution, to avoid the need for :unsilent.
 "   2.00.010	23-Sep-2014	Factor out filtering of the files to Strategy
 "				prototype object from
 "				g:AdvancedDiffOptions_Strategy.
@@ -175,13 +178,20 @@ function! AdvancedDiffOptions#DiffCmd( diffOptions, fname_in, fname_new, ... )
 	let l:diffCmd .= ' > ' . ingo#compat#shellescape(l:fname_out, 1)
     endif
 
-    let l:filterCmd = l:filter.getCommand(a:fname_in, a:fname_new)
+    let l:filterCmd = ''
+    try
+	let l:filterCmd = l:filter.getCommand(a:fname_in, a:fname_new)
+    catch /^AdvancedDiffOptions:/
+	call ingo#msg#CustomExceptionMsg('AdvancedDiffOptions')
+    endtry
+
     let l:diffCmd = l:filterCmd . l:diffCmd
-unsilent echomsg '****' l:diffCmd
+"****D echomsg '****' l:diffCmd
     return l:diffCmd
 endfunction
 function! AdvancedDiffOptions#DiffExpr()
-    silent execute '!' . AdvancedDiffOptions#DiffCmd(s:GetAllDiffOptions(), v:fname_in, v:fname_new, v:fname_out)
+    let l:diffCmd = AdvancedDiffOptions#DiffCmd(s:GetAllDiffOptions(), v:fname_in, v:fname_new, v:fname_out)
+    silent execute '!' . l:diffCmd
 endfunction
 
 let &cpo = s:save_cpo
