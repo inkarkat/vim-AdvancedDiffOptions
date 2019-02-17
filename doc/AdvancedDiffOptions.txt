@@ -31,6 +31,12 @@ When there's a corresponding command-line option for the "diff" tool, this is
 passed. The filtering of lines, ranges, and patterns is implemented by
 preprocessing the buffers through the external "sed" command.
 
+RELATED WORKS								     *
+
+- spotdiff.vim (vimscript #5509) also selectively diffs parts of two buffers
+  by filtering certain lines via a custom 'diffexpr', similar to how
+  :DiffIRange works.
+
 ==============================================================================
 USAGE						   *AdvancedDiffOptions-usage*
 								*:DiffOptions*
@@ -150,7 +156,7 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2011-2014 Ingo Karkat
+Copyright: (C) 2011-2017 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
