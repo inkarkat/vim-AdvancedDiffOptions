@@ -92,11 +92,14 @@ let s:diffOptNameToShort = {
 \   'icase' : 'i',
 \   'iwhite' : 'ws'
 \}
+let s:save_diffexpr = ''
 function! s:ApplyDiffOpt()
     if empty(g:diffopt)
-	" TODO: Save and restore previous diffexpr.
-	set diffexpr=
+	let &diffexpr = s:save_diffexpr
     else
+	if &diffexpr !~# '^AdvancedDiffOptions'
+	    let s:save_diffexpr = &diffexpr
+	endif
 	set diffexpr=AdvancedDiffOptions#DiffExpr()
     endif
 endfunction
