@@ -1,16 +1,17 @@
 " AdvancedDiffOptions.vim: Additional diff options and commands to manage them.
 "
 " DEPENDENCIES:
-"   - ingo/collections.vim autoload script
-"   - ingo/compat.vim autoload script
+"   - ingo-library.vim plugin
 "   - external "diff" command, accessible through the PATH
 "
-" Copyright: (C) 2011-2014 Ingo Karkat
+" Copyright: (C) 2011-2019 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   2.10.012	18-Feb-2019	Add AdvancedDiffOptions#Algorithm() for new
+"                               :DiffAlgorithm command.
 "   2.00.011	25-Sep-2014	Report custom exceptions from the chosen filter
 "				(e.g. when a syntax isn't supported).
 "				Move getting the diff command out of the :silent
@@ -43,6 +44,45 @@ set cpo&vim
 
 function! AdvancedDiffOptions#ShowDiffOptions()
     echo &diffopt . (empty(g:diffopt) ? '' : (empty(&diffopt) ? '' : ',') . join(g:diffopt, ','))
+endfunction
+
+function! AdvancedDiffOptions#Algorithm( arguments )
+    let l:diffOptions = ingo#option#SplitAndUnescape(&diffopt)
+
+    let l:message = ''
+    if ! empty(&diffexpr)
+	let l:message = 'Using external diff: ' . &diffexpr
+    elseif index(l:diffOptions, 'internal') == -1
+	let l:message = 'Using external diff'
+    endif
+    if ! empty(l:message)
+	if empty(a:arguments)
+	    echo l:message
+	    return 1
+	else
+	    call ingo#err#Set(l:message)
+	    return 0
+	endif
+    endif
+
+    let l:currentAlgorithm = filter(l:diffOptions, 'v:val =~# "^algorithm:"')
+
+    if empty(a:arguments)
+	let l:algorithm = get(l:currentAlgorithm, 0, 'default')
+	echo printf('Using %s algorithm', substitute(l:algorithm, '^algorithm:', '', ''))
+	return 1
+    endif
+
+    for l:algorithm in l:currentAlgorithm
+	execute 'set diffopt-=' . l:algorithm
+    endfor
+    try
+	execute 'set diffopt+=algorithm:' . a:arguments
+	return 1
+    catch /^Vim\%((\a\+)\)\=:/
+	call ingo#err#SetVimException()
+	return 0
+    endtry
 endfunction
 
 if ! exists('g:diffopt')
