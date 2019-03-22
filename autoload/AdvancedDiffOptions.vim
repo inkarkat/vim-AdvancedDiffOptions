@@ -11,12 +11,12 @@
 "
 " REVISION	DATE		REMARKS
 "   2.10.012	18-Feb-2019	Add AdvancedDiffOptions#Algorithm() for new
-"                               :DiffAlgorithm command.
-"                               Save original 'diffexpr'. Remove "internal" from
-"                               'diffopt' when setting 'diffexpr'. According to
-"                               :help 'diffopt', this should not be necessary,
-"                               but I get E97 when the internal diff is still
-"                               enabled.
+"				:DiffAlgorithm command.
+"				Save original 'diffexpr'. Remove "internal" from
+"				'diffopt' when setting 'diffexpr'. According to
+"				:help 'diffopt', this should not be necessary,
+"				but I get E97 when the internal diff is still
+"				enabled.
 "   2.00.011	25-Sep-2014	Report custom exceptions from the chosen filter
 "				(e.g. when a syntax isn't supported).
 "				Move getting the diff command out of the :silent
