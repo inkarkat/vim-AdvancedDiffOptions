@@ -41,6 +41,13 @@ RELATED WORKS								     *
 USAGE						   *AdvancedDiffOptions-usage*
 								*:DiffOptions*
 :DiffOptions		List the currently active diff options.
+							      *:DiffAlgorithm*
+:DiffAlgorithm		Show the currently active diff algorithm (for the
+			internal diff).
+:DiffAlgorithm {algorithm}
+			Set the algorithm for the internal diff to
+			{algorithm}, one of myers, minimal, patience, history;
+			cp. 'diffopt'.
 								 *:DiffIClear*
 :DiffIClear		Clear all "ignore ..." diff options.
 							    *:DiffIWhiteSpace*
@@ -71,6 +78,9 @@ USAGE						   *AdvancedDiffOptions-usage*
 			diff (globally, not just the first match).
 			[!] for undo, i.e. removing {expr}, or all previously
 			given patterns.
+			Note that if the amount of ignored lines different
+			between files, other (later) lines will be mistakenly
+			highlighted as changed.
 			Note that Vim will still highlight the ignored changes
 			(should there be another change in the line that is
 			not covered by {expr}), because it determines that on
@@ -139,6 +149,12 @@ IDEAS						   *AdvancedDiffOptions-ideas*
 ==============================================================================
 HISTORY						 *AdvancedDiffOptions-history*
 
+2.10	RELEASEME
+- Add :DiffAlgorithm command to query or set the algorithm used by the
+  internal diff.
+- Save original 'diffexpr'. Remove "internal" from 'diffopt' when setting
+  'diffexpr'.
+
 2.00	25-Sep-2014
 - Refactor the plugin to handle different strategies to preprocess the
   compared files (used by some advanced filters).
@@ -156,7 +172,7 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2011-2017 Ingo Karkat
+Copyright: (C) 2011-2019 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
