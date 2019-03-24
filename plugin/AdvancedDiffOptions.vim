@@ -2,15 +2,15 @@
 "
 " DEPENDENCIES:
 "   - Requires Vim 7.0 or higher.
-"   - AdvancedDiffOptions.vim autoload script
-"   - AdvancedDiffOptions/External.vim autoload script
+"   - ingo-library.vim plugin
 "
-" Copyright: (C) 2011-2014 Ingo Karkat
+" Copyright: (C) 2011-2019 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   2.10.011	18-Feb-2019	Add :DiffAlgorithm command.
 "   2.00.010	23-Sep-2014	Factor out filtering of the files to
 "				g:AdvancedDiffOptions_Strategy configuration.
 "   1.00.008	24-Jan-2013	ENH: Add :DiffIPattern to ignore only certain
@@ -67,6 +67,10 @@ endif
 command! -bar DiffOptions call AdvancedDiffOptions#ShowDiffOptions()
 
 command! -bar DiffIClear call AdvancedDiffOptions#ClearDiffOptions() | call AdvancedDiffOptions#ShowDiffOptions()
+
+let g:AdvancedDiffOptions#Algorithms = ['myers', 'minimal', 'patience', 'histogram']
+call ingo#plugin#cmdcomplete#MakeFixedListCompleteFunc(g:AdvancedDiffOptions#Algorithms, 'AdvancedDiffOptionsAlgorithmCompleteFunc')
+command! -bar -nargs=? -complete=customlist,AdvancedDiffOptionsAlgorithmCompleteFunc DiffAlgorithm if ! AdvancedDiffOptions#Algorithm(<q-args>) | echoerr ingo#err#Get() | endif
 
 command! -bar -bang DiffIWhiteSpace execute 'set diffopt' . (<bang>0 ? '-' : '+') . '=iwhite' |
 \   diffupdate | call AdvancedDiffOptions#ShowDiffOptions()
