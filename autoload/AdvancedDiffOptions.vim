@@ -10,6 +10,11 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   2.10.013	23-Mar-2019	Don't include "internal" in
+"                               AdvancedDiffOptions#GetShortDiffOptions(), as
+"                               it's more an implementation detail. Same for
+"                               "indent-heuristic" (which also starts with i and
+"                               is therefore picked up).
 "   2.10.012	18-Feb-2019	Add AdvancedDiffOptions#Algorithm() for new
 "				:DiffAlgorithm command.
 "				Save original 'diffexpr'. Remove "internal" from
@@ -140,7 +145,7 @@ endfunction
 function! s:GetAllDiffOptions()
     " The built-in 'diffopt' values that are relevant to diff creation all start
     " with the letter "i".
-    return filter(split(&diffopt, ','), 'v:val[0] ==# "i"') + g:diffopt
+    return filter(split(&diffopt, ','), 'v:val[0] ==# "i" && v:val !=# "internal" && v:val !=# "indent-heuristic"') + g:diffopt
 endfunction
 function! AdvancedDiffOptions#GetShortDiffOptions()
 "******************************************************************************
