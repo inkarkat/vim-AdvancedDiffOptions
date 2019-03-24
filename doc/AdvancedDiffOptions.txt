@@ -154,6 +154,9 @@ HISTORY						 *AdvancedDiffOptions-history*
   internal diff.
 - Save original 'diffexpr'. Remove "internal" from 'diffopt' when setting
   'diffexpr'.
+- Don't include "internal" in AdvancedDiffOptions#GetShortDiffOptions(), as
+  it's more an implementation detail. Same for "indent-heuristic" (which also
+  starts with i and is therefore picked up).
 
 2.00	25-Sep-2014
 - Refactor the plugin to handle different strategies to preprocess the
