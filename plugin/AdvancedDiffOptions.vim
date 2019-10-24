@@ -10,6 +10,8 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   2.10.013	25-Oct-2019	Only offer :DiffAlgorithm completion for the
+"				first argument, as only one is supported.
 "   2.10.012	25-Mar-2019	Add :DiffIWhiteAll, :DiffIWhiteEol for the new
 "                               built-in 'diffopt' values added in Vim 8.1.393.
 "                               Implement :DiffIBlankLines in terms of the
@@ -49,7 +51,7 @@
 "				Add :DiffOptions to list all currently active
 "				diff options, both built-in (&diffopt) and
 "				custom (g:diffopt).
-"			    	file creation
+"				file creation
 
 " Avoid installing twice or when in unsupported Vim version.
 if exists('g:loaded_AdvancedDiffOptions') || (v:version < 700)
@@ -73,7 +75,7 @@ command! -bar DiffOptions call AdvancedDiffOptions#ShowDiffOptions()
 command! -bar DiffIClear call AdvancedDiffOptions#ClearDiffOptions() | call AdvancedDiffOptions#ShowDiffOptions()
 
 let g:AdvancedDiffOptions#Algorithms = ['myers', 'minimal', 'patience', 'histogram']
-call ingo#plugin#cmdcomplete#MakeFixedListCompleteFunc(g:AdvancedDiffOptions#Algorithms, 'AdvancedDiffOptionsAlgorithmCompleteFunc')
+call ingo#plugin#cmdcomplete#MakeFirstArgumentFixedListCompleteFunc(g:AdvancedDiffOptions#Algorithms, '', 'AdvancedDiffOptionsAlgorithmCompleteFunc')
 command! -bar -nargs=? -complete=customlist,AdvancedDiffOptionsAlgorithmCompleteFunc DiffAlgorithm if ! AdvancedDiffOptions#Algorithm(<q-args>) | echoerr ingo#err#Get() | endif
 
 command! -bar -bang DiffIWhiteSpace execute 'set diffopt' . (<bang>0 ? '-' : '+') . '=iwhite' |
