@@ -54,8 +54,14 @@ USAGE						   *AdvancedDiffOptions-usage*
 :DiffIWhiteSpace[!]	Ignore changes in whitespace. [!] for undo.
 								  *:DiffICase*
 :DiffICase[!]		Ignore changes in case. [!] for undo.
+							      *:DiffIWhiteAll*
+:DiffIWhiteAll[!]	Ignore all white space changes. [!] for undo.
+							      *:DiffIWhiteEol*
+:DiffIWhiteEol[!]	Ignore white space changes at end of line. [!] for
+			undo.
 							    *:DiffIBlankLines*
-:DiffIBlankLines[!]	Ignore blank lines. [!] for undo.
+:DiffIBlankLines[!]	Ignore changes where lines are all blank. [!] for
+			undo.
 								 *:DiffIHunks*
 :DiffIHunks[!] [{expr}]	Ignore change hunks whose lines _all_ match {expr}.
 			[!] for undo.
@@ -157,6 +163,9 @@ HISTORY						 *AdvancedDiffOptions-history*
 - Don't include "internal" in AdvancedDiffOptions#GetShortDiffOptions(), as
   it's more an implementation detail. Same for "indent-heuristic" (which also
   starts with i and is therefore picked up).
+- Add :DiffIWhiteAll, :DiffIWhiteEol for the new built-in 'diffopt' values
+  added in Vim 8.1.393. Implement :DiffIBlankLines in terms of the "iblank"
+  'diffopt' value if supported.
 
 2.00	25-Sep-2014
 - Refactor the plugin to handle different strategies to preprocess the
