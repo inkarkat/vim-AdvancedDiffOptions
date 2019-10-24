@@ -10,6 +10,10 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   2.10.012	25-Mar-2019	Add :DiffIWhiteAll, :DiffIWhiteEol for the new
+"                               built-in 'diffopt' values added in Vim 8.1.393.
+"                               Implement :DiffIBlankLines in terms of the
+"                               "iblank" 'diffopt' value if supported.
 "   2.10.011	18-Feb-2019	Add :DiffAlgorithm command.
 "   2.00.010	23-Sep-2014	Factor out filtering of the files to
 "				g:AdvancedDiffOptions_Strategy configuration.
@@ -78,9 +82,24 @@ command! -bar -bang DiffIWhiteSpace execute 'set diffopt' . (<bang>0 ? '-' : '+'
 command! -bar -bang DiffICase execute 'set diffopt' . (<bang>0 ? '-' : '+') . '=icase' |
 \   diffupdate | call AdvancedDiffOptions#ShowDiffOptions()
 
-command! -bar -bang DiffIBlankLines
-\   call AdvancedDiffOptions#ChangeDiffOpt(<bang>0, 'iblankline', 'wl') |
-\   diffupdate | call AdvancedDiffOptions#ShowDiffOptions()
+if v:version == 801 && has('patch393') || v:version > 801
+    command! -bar -bang DiffIBlankLines execute 'set diffopt' . (<bang>0 ? '-' : '+') . '=iblank' |
+    \   diffupdate | call AdvancedDiffOptions#ShowDiffOptions()
+    command! -bar -bang DiffIWhiteAll execute 'set diffopt' . (<bang>0 ? '-' : '+') . '=iwhiteall' |
+    \   diffupdate | call AdvancedDiffOptions#ShowDiffOptions()
+    command! -bar -bang DiffIWhiteEol execute 'set diffopt' . (<bang>0 ? '-' : '+') . '=iwhiteeol' |
+    \   diffupdate | call AdvancedDiffOptions#ShowDiffOptions()
+else
+    command! -bar -bang DiffIBlankLines
+    \   call AdvancedDiffOptions#ChangeDiffOpt(<bang>0, 'iblank', 'wl') |
+    \   diffupdate | call AdvancedDiffOptions#ShowDiffOptions()
+    command! -bar -bang DiffIWhiteAll
+    \   call AdvancedDiffOptions#ChangeDiffOpt(<bang>0, 'iwhiteall', 'wa') |
+    \   diffupdate | call AdvancedDiffOptions#ShowDiffOptions()
+    command! -bar -bang DiffIWhiteEol
+    \   call AdvancedDiffOptions#ChangeDiffOpt(<bang>0, 'iwhiteeol', 'w$') |
+    \   diffupdate | call AdvancedDiffOptions#ShowDiffOptions()
+endif
 
 command! -bang -nargs=? DiffIHunks
 \   call AdvancedDiffOptions#ChangeDiffOpt(<bang>0, 'ihunk', '@@', <q-args>) |
