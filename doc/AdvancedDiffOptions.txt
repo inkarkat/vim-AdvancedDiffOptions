@@ -70,8 +70,8 @@ USAGE						   *AdvancedDiffOptions-usage*
 			the diff command itself; they work by preprocessing
 			the compared files before sending them to diff.
 								 *:DiffILines*
-:DiffILines[!] [{expr}]	Do not consider any lines that match {expr} in the
-			diff. [!] for undo.
+:DiffILines[!] [{expr}]	Do not consider any (whole) lines that match {expr} in
+			the diff (like grep). [!] for undo.
 								 *:DiffIRange*
 :DiffIRange[!] [{range}]
 			Do not consider any lines that match the lines
@@ -81,7 +81,10 @@ USAGE						   *AdvancedDiffOptions-usage*
 							       *:DiffIPattern*
 :DiffIPattern[!] [{expr}]
 			Do not consider any text that matches {expr} in the
-			diff (globally, not just the first match).
+			diff (globally, not just the first match). Other text
+			around the matches still contributes to the diff, so
+			in contrast to |:DiffILines|, this lets you
+			selectively ignore parts of a line.
 			[!] for undo, i.e. removing {expr}, or all previously
 			given patterns.
 			Note that if the amount of ignored lines different
@@ -185,7 +188,7 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2011-2019 Ingo Karkat
+Copyright: (C) 2011-2020 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
