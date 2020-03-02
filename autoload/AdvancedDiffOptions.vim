@@ -4,7 +4,7 @@
 "   - ingo-library.vim plugin
 "   - external "diff" command, accessible through the PATH
 "
-" Copyright: (C) 2011-2019 Ingo Karkat
+" Copyright: (C) 2011-2020 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
@@ -51,7 +51,7 @@
 "	001	07-Jul-2011	ENH: Add :DiffIgnoreBlankLines and
 "				:DiffIgnoreRegexp commands that employ a custom
 "				'diffexpr' to pass arbitrary diff arguments.
-"			    	file creation
+"				file creation
 let s:save_cpo = &cpo
 set cpo&vim
 
