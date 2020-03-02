@@ -10,6 +10,9 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   2.10.014	25-Mar-2019	Rename "iblankline" to "iblank"; that's the name
+"                               of the built-in 'diffopt' value (since Vim
+"                               8.1.393). Add "iwhiteall" and "iwhiteeol", too.
 "   2.10.013	23-Mar-2019	Don't include "internal" in
 "                               AdvancedDiffOptions#GetShortDiffOptions(), as
 "                               it's more an implementation detail. Same for
@@ -209,8 +212,12 @@ function! s:TranslateDiffOpts( diffOpt, isVimSuitabilityCheckPass, filter )
 	return '-i'
     elseif l:diffOptName ==# 'iwhite'
 	return '-b'
-    elseif l:diffOptName ==# 'iblankline'
-	return '-b -B'
+    elseif l:diffOptName ==# 'iblank'
+	return '-B'
+    elseif l:diffOptName ==# 'iwhiteall'
+	return '-w'
+    elseif l:diffOptName ==# 'iwhiteeol'
+	return '-Z'
     elseif l:diffOptName ==# 'ihunk'
 	return '-I ' . (a:isVimSuitabilityCheckPass ? 'doesnotmatch' : ingo#compat#shellescape(l:diffOptArg, 1))
     else
