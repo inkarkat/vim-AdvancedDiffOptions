@@ -117,7 +117,7 @@ To uninstall, use the |:RmVimball| command.
 DEPENDENCIES				    *AdvancedDiffOptions-dependencies*
 
 - Requires Vim 7.0 or higher.
-- Requires the |ingo-library.vim| plugin (vimscript #4433), version 1.012 or
+- Requires the |ingo-library.vim| plugin (vimscript #4433), version 1.040 or
   higher.
 - External command "diff" or equivalent for listing of differences.
 - External command "sed" for some advanced filters (optional).
@@ -166,6 +166,7 @@ HISTORY						 *AdvancedDiffOptions-history*
 - Add :DiffIWhiteAll, :DiffIWhiteEol for the new built-in 'diffopt' values
   added in Vim 8.1.393. Implement :DiffIBlankLines in terms of the "iblank"
   'diffopt' value if supported.
+  *** You need to update to ingo-library (vimscript #4433) version 1.040! ***
 
 2.00	25-Sep-2014
 - Refactor the plugin to handle different strategies to preprocess the
