@@ -1,25 +1,16 @@
 " AdvancedDiffOptions/External.vim: Advanced diff filtering via external command.
 "
 " DEPENDENCIES:
-"   - ingo/compat.vim autoload script
+"   - ingo-library.vim plugin
+"   - misc.vim plugin (optional)
 "   - external "sed" command, accessible through the PATH
 "   - external "vim" command, accessible through the PATH, or found through
 "     vim-misc.
-"   - xolox/misc/os.vim autoload script (optional)
 "
-" Copyright: (C) 2014 Ingo Karkat
+" Copyright: (C) 2014-2020 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
-"
-" REVISION	DATE		REMARKS
-"   2.00.003	25-Sep-2014	FIX: Postprocessing removes "%" from "%s".
-"				Optionally use xolox#misc#os#find_vim() from
-"				the vim-misc plugin.
-"   2.00.002	24-Sep-2014	Introduce full templating to accommodate the
-"				syntax differences between sed and Vim.
-"   2.00.001	23-Sep-2014	file creation from
-"				autoload/AdvancedDiffOptions.vim
 let s:save_cpo = &cpo
 set cpo&vim
 
