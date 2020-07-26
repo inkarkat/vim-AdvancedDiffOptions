@@ -8,50 +8,6 @@
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
-"
-" REVISION	DATE		REMARKS
-"   2.10.014	25-Mar-2019	Rename "iblankline" to "iblank"; that's the name
-"                               of the built-in 'diffopt' value (since Vim
-"                               8.1.393). Add "iwhiteall" and "iwhiteeol", too.
-"   2.10.013	23-Mar-2019	Don't include "internal" in
-"                               AdvancedDiffOptions#GetShortDiffOptions(), as
-"                               it's more an implementation detail. Same for
-"                               "indent-heuristic" (which also starts with i and
-"                               is therefore picked up).
-"   2.10.012	18-Feb-2019	Add AdvancedDiffOptions#Algorithm() for new
-"				:DiffAlgorithm command.
-"				Save original 'diffexpr'. Remove "internal" from
-"				'diffopt' when setting 'diffexpr'. According to
-"				:help 'diffopt', this should not be necessary,
-"				but I get E97 when the internal diff is still
-"				enabled.
-"   2.00.011	25-Sep-2014	Report custom exceptions from the chosen filter
-"				(e.g. when a syntax isn't supported).
-"				Move getting the diff command out of the :silent
-"				execution, to avoid the need for :unsilent.
-"   2.00.010	23-Sep-2014	Factor out filtering of the files to Strategy
-"				prototype object from
-"				g:AdvancedDiffOptions_Strategy.
-"   1.00.009	05-Aug-2014	Globally remove the pattern for 'ipattern'.
-"	008	08-Aug-2013	Move escapings.vim into ingo-library.
-"	007     21-Feb-2013     Move to ingo-library.
-"	006	24-Jan-2013	Rename :DiffIRegexp to :DiffILines, as it's more
-"				consistent with :DiffIBlankLines and less
-"				misleading whether only the match or the entire
-"				matching line is ignored.
-"				Rename to AdvancedDiffOptions.vim.
-"	005	28-Sep-2011	Add :DiffIClear command.
-"	004	28-Sep-2011	Factor out ingodiffoptions#DiffCmd() for use in
-"				ingodiff.vim's :DiffCreate commands.
-"	003	11-Jul-2011	Implement short diff option name that can be
-"				included in the statusline.
-"	002	07-Jul-2011	ENH: Add :DiffIgnoreRegexp (replacement for
-"				renamed :DiffIgnoreHunks) and :DiffIgnoreRange
-"				that rely on pre-filtering of what "diff" sees.
-"	001	07-Jul-2011	ENH: Add :DiffIgnoreBlankLines and
-"				:DiffIgnoreRegexp commands that employ a custom
-"				'diffexpr' to pass arbitrary diff arguments.
-"				file creation
 let s:save_cpo = &cpo
 set cpo&vim
 
