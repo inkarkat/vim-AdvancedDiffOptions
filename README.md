@@ -124,6 +124,7 @@ To uninstall, use the :RmVimball command.
 - Requires Vim 7.0 or higher.
 - Requires the ingo-library.vim plugin ([vimscript #4433](http://www.vim.org/scripts/script.php?script_id=4433)), version 1.040 or
   higher.
+- misc.vim plugin ([vimscript #4597](http://www.vim.org/scripts/script.php?script_id=4597)), version 1.17 or higher (optional).
 - External command "diff" or equivalent for listing of differences.
 - External command "sed" for some advanced filters (optional).
 
@@ -162,7 +163,7 @@ below).
 HISTORY
 ------------------------------------------------------------------------------
 
-##### 2.10    RELEASEME
+##### 2.10    26-Jul-2020
 - Add :DiffAlgorithm command to query or set the algorithm used by the
   internal diff.
 - Save original 'diffexpr'. Remove "internal" from 'diffopt' when setting

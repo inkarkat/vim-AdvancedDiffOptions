@@ -4,54 +4,10 @@
 "   - Requires Vim 7.0 or higher.
 "   - ingo-library.vim plugin
 "
-" Copyright: (C) 2011-2019 Ingo Karkat
+" Copyright: (C) 2011-2020 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
-"
-" REVISION	DATE		REMARKS
-"   2.10.013	25-Oct-2019	Only offer :DiffAlgorithm completion for the
-"				first argument, as only one is supported.
-"   2.10.012	25-Mar-2019	Add :DiffIWhiteAll, :DiffIWhiteEol for the new
-"                               built-in 'diffopt' values added in Vim 8.1.393.
-"                               Implement :DiffIBlankLines in terms of the
-"                               "iblank" 'diffopt' value if supported.
-"   2.10.011	18-Feb-2019	Add :DiffAlgorithm command.
-"   2.00.010	23-Sep-2014	Factor out filtering of the files to
-"				g:AdvancedDiffOptions_Strategy configuration.
-"   1.00.008	24-Jan-2013	ENH: Add :DiffIPattern to ignore only certain
-"				parts of a line (vs. :DiffILines which ignores
-"				the entire line if the passed regexp matches).
-"				FIX: Have to double backslashes ("foo\\bar") in
-"				regular expressions. Need to drop the -bar in
-"				those commands taking a regexp.
-"				Rename to AdvancedDiffOptions.vim.
-"				Split off separate help file.
-"	007	24-Jan-2013	Rename :DiffIRegexp to :DiffILines, as it's more
-"				consistent with :DiffIBlankLines and less
-"				misleading whether only the match or the entire
-"				matching line is ignored.
-"	006	28-Sep-2011	Add :DiffIClear command.
-"	005	11-Jul-2011	Implement short diff option name that can be
-"				included in the statusline.
-"	004	09-Jul-2011	Automatically :diffupdate after changing the
-"				diff options. Note that this isn't effective in
-"				diff buffers created by a :Diff...Create
-"				command; for these, you still need to invoke the
-"				custom update command bound to the buffer-local
-"				"du" mapping.
-"	003	07-Jul-2011	Shorten :DiffIgnore... to :DiffI...; it's easier
-"				to recognize, type and command-complete.
-"	002	07-Jul-2011	ENH: Add :DiffIgnoreRegexp (replacement for
-"				renamed :DiffIgnoreHunks) and :DiffIgnoreRange
-"				that rely on pre-filtering of what "diff" sees.
-"	001	07-Jul-2011	ENH: Add :DiffIgnoreBlankLines and
-"				:DiffIgnoreRegexp commands that employ a custom
-"				'diffexpr' to pass arbitrary diff arguments.
-"				Add :DiffOptions to list all currently active
-"				diff options, both built-in (&diffopt) and
-"				custom (g:diffopt).
-"				file creation
 
 " Avoid installing twice or when in unsupported Vim version.
 if exists('g:loaded_AdvancedDiffOptions') || (v:version < 700)
